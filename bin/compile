@@ -4,7 +4,6 @@ set -e
 
 unset GIT_DIR
 
-
 if [[ -n "$SSH_GIT_RSA" ]]; then
   echo "$SSH_GIT_RSA" > ./ssh_git_rsa_id
   chmod 400 ./ssh_git_rsa_id
@@ -12,6 +11,9 @@ if [[ -n "$SSH_GIT_RSA" ]]; then
   chmod +x ssh_custom
   echo "using custom ssh"
   CUSTOM_GIT_SSH="./ssh_custom"
+fi
+
+if [[ -n "$SSH_GIT_USER" ]]; then
 fi
 
 for BUILDPACK in $(cat $1/.buildpacks); do
@@ -42,8 +44,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       LS=`ls $dir`
       echo "$LS"
     else
-      echo "GIT_SSH=$CUSTOM_GIT_SSH  git clone $url $dir"
-      GIT_SSH="$CUSTOM_GIT_SSH" git clone $url $dir
+      echo "GIT_SSH=$CUSTOM_GIT_SSH  git clone $SSH_GIT_USER@$url $dir"
+      GIT_SSH="$CUSTOM_GIT_SSH" git clone $SSH_GIT_USER@$url $dir
     fi
     cd $dir
 
