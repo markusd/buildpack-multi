@@ -4,13 +4,15 @@ set -e
 
 unset GIT_DIR
 
+CUSTOM_GIT_SSH="ssh"
 if [[ -n "$SSH_GIT_RSA" ]]; then
   echo "$SSH_GIT_RSA" > ./ssh_git_rsa_id
   chmod 400 ./ssh_git_rsa_id
-  echo 'ssh -vvv -i ./ssh_git_rsa_id -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $*' > ssh_custom
+  KEYFILE=$(readlink -f ./ssh_git_rsa_id)
+  echo "ssh -vvv -i $KEYFILE -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "'$*' > ssh_custom
   chmod +x ssh_custom
   echo "using custom ssh"
-  CUSTOM_GIT_SSH="./ssh_custom"
+  CUSTOM_GIT_SSH=$(readlink -f ./ssh_custom)
 fi
 
 if [[ -n "$SSH_GIT_USER" ]]; then
