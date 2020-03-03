@@ -14,6 +14,7 @@ if [[ -n "$SSH_GIT_RSA" ]]; then
 fi
 
 if [[ -n "$SSH_GIT_USER" ]]; then
+   echo "user $SSH_GIT_USER"
 fi
 
 for BUILDPACK in $(cat $1/.buildpacks); do
