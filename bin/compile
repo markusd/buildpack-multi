@@ -42,7 +42,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       LS=`ls $dir`
       echo "$LS"
     else
-      GIT_SSH="$CUSTOM_GIT_SSH" git clone $url $dir >/dev/null 2>&1
+      echo "GIT_SSH=$CUSTOM_GIT_SSH  git clone $url $dir"
+      GIT_SSH="$CUSTOM_GIT_SSH" git clone $url $dir
     fi
     cd $dir
 
